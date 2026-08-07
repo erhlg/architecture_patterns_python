@@ -9,7 +9,6 @@ later = tomorrow + timedelta(days=10)
 
 
 def test_allocating_to_a_batch_reduces_the_available_quantity():
-
     BATCH_COUNT = 20
     ORDER_COUNT = 2
 
@@ -22,7 +21,6 @@ def test_allocating_to_a_batch_reduces_the_available_quantity():
 
 
 def test_can_allocate_if_available_greater_than_required():
-
     batch = Batch("batch-002", "CHAIR", qty=30, eta=today)
     line = OrderLine("order-ref-2", "CHAIR", qty=29)
 
@@ -82,11 +80,10 @@ def test_prefers_warehouse_batches_to_shipments():
     allocate(line, [shipment_batch, in_stock_batch])
 
     assert in_stock_batch.available_quantity == 50
-    assert shipment_batch.available_quantity == 100 
+    assert shipment_batch.available_quantity == 100
 
 
 def test_prefers_earlier_batches():
-
     earliest = Batch("earliest_batch", "ITEM", 100, eta=today)
     medium = Batch("normal_batch", "ITEM", 100, eta=tomorrow)
     last = Batch("slowest_batch", "ITEM", 100, eta=later)
@@ -101,7 +98,6 @@ def test_prefers_earlier_batches():
 
 
 def test_returns_allocated_batch_ref():
-
     in_stock_batch = Batch("in-stock-batch", "DESKLAMP", qty=100, eta=None)
     shipment_batch = Batch("Shipment-batch", "DESKLAMP", qty=100, eta=tomorrow)
     line = OrderLine("Oref", "DESKLAMP", qty=50)
@@ -110,12 +106,10 @@ def test_returns_allocated_batch_ref():
 
     assert allocation == in_stock_batch.batchid
 
+
 def test_raises_out_of_stock_exception_if_cannot_allocate():
     shipment_batch = Batch("Shipment-batch", "DESKLAMP", qty=49, eta=tomorrow)
     line = OrderLine("Oref", "DESKLAMP", qty=50)
 
     with pytest.raises(OutOfStock, match="DESKLAMP"):
         allocate(line, [shipment_batch])
-
-
-
