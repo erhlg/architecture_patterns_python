@@ -9,6 +9,7 @@ from orm import metadata, start_mappers
 def in_memory_db():
     engine = create_engine("sqlite:///:memory:")
     metadata.create_all(engine)
+    return engine
 
 @pytest.fixture
 def session(in_memory_db):
