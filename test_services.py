@@ -14,6 +14,9 @@ class FakeRepository(repository.AbstractRepository):
     def get(self, reference):
         return next(b for b in self._batches if b.reference == reference)
 
+    def remove(self, batch): 
+        self._batches.remove(batch)
+
     def list(self):
         return list(self._batches)
 
